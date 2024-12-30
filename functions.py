@@ -1,5 +1,5 @@
 import re
-from config import CATEGORIES, city
+from config import CATEGORIES
 from datetime import datetime, timedelta
 import requests
 

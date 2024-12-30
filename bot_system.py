@@ -19,4 +19,4 @@ def check_admin(func):
     return wrapper
 
 sys.path.append('bot_functions')
-import finance_func, start_func
+import finance_func, start_func, prognoz_func, remind_func
