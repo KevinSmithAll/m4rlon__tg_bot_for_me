@@ -1,4 +1,3 @@
-import functions
 import schedule
 import threading
 import time

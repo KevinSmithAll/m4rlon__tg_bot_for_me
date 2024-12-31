@@ -18,5 +18,7 @@ def check_admin(func):
         else: return func(message, *args, **kwargs)
     return wrapper
 
-sys.path.append('bot_functions')
-import finance_func, start_func, prognoz_func, remind_func
+from bot_functions.finance_func import *
+from bot_functions.prognoz_func import *
+from bot_functions.remind_func import *
+from bot_functions.start_func import *
