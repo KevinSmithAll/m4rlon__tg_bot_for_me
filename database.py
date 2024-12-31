@@ -68,3 +68,18 @@ class Database:
     def delete_month(self):
         self.cur.execute("DELETE FROM 'transaktions'")
         self.conn.commit()
+
+    def get_all_text(self):
+        return self.cur.execute('SELECT * FROM something').fetchall()
+
+    def change_text(self, id, new_text):
+        self.cur.execute("UPDATE something SET comment=? WHERE id=?", (new_text, id))
+        self.conn.commit()
+
+    def delete_zametka(self, id):
+        self.cur.execute('DELETE FROM something WHERE id=%s' % id)
+        self.conn.commit()
+
+    def delete_all_zametka(self):
+        self.cur.execute('DELETE FROM something')
+        self.conn.commit()

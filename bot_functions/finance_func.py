@@ -138,7 +138,6 @@ def delete_rashod(message):
         bot.register_next_step_handler(message, delete_rashod)
 
 def add_rashod(message):
-    print(functions.correct_variant(' '.join(message.text.split()[0:3])))
     if functions.correct_variant(' '.join(message.text.split()[0:3])):
         data_list = message.text.split()
         db = Database()

@@ -65,3 +65,8 @@ def weaher_9pm()->str:
              f'Характеристика погоды: {description}\n'
              f'Дата и время измерения: {data_time}')
     return otvet
+
+def correct_zametka(messagetext: str)->bool:
+    pattern = r'\d+\s+\w+'
+    match = re.match(pattern, messagetext)
+    return True if match else False
