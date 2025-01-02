@@ -1,7 +1,7 @@
 import schedule
 import threading
 import time
-from bot_system import bot, loop, happy_new_year
+from bot_system import bot, loop
 
 
 def start_polling():
@@ -18,7 +18,6 @@ def main():
     polling_thread.start()
 
     schedule.every().day.at("09:10").do(loop)
-    schedule.every().day.at("00:01").do(happy_new_year)
 
     while True:
         schedule.run_pending()

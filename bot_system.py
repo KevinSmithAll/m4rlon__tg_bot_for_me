@@ -10,9 +10,6 @@ bot = telebot.TeleBot(TOKEN)
 def loop():
     bot.send_message(890424948, functions.forecaster())
 
-def happy_new_year():
-    bot.send_message(890424948, 'Хозяин! Поздравляю тебя с Новый 2025 годом, ураааааа')
-
 
 def check_admin(func):
     def wrapper(message, *args, **kwargs):
