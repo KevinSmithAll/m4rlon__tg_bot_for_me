@@ -1,4 +1,7 @@
 /.venv/
 /.idea/
 *.db
+*.xlsx
+.gitignore
+test.py
 __pycache__

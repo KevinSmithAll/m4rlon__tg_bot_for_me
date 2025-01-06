@@ -8,7 +8,7 @@ import sys
 bot = telebot.TeleBot(TOKEN)
 
 def loop():
-    bot.send_message(890424948, functions.forecaster())
+    bot.send_message(890424948, functions.weaher_9pm())
 
 
 def check_admin(func):

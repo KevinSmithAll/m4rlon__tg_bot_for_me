@@ -57,7 +57,7 @@ def weaher_9pm()->str:
     wind = data['list'][3]['wind']['speed']
     description = data['list'][3]['weather'][0]['description']
     data_time = data['list'][3]['dt_txt']
-    otvet = (f'Привет, Хозяин, настоящим докладываю тебе прогноз погоды\n'
+    otvet = (f'Настоящим докладываю тебе прогноз погоды на ЗАВТРА 06:00\n'
              f'Температура: {round(temp, 1)} градусов\n'
              f'Ощущается как: {round(feel_temp, 1)} градусов\n'
              f'Влажность: {humidity} процентов\n'
