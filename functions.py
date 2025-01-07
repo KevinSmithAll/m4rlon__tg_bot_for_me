@@ -1,5 +1,5 @@
 import re
-from config import CATEGORIES
+from config import CATEGORIES, CITY
 from datetime import datetime, timedelta
 import requests
 
@@ -31,7 +31,7 @@ def correct_with_number(text: str)-> bool:
     return True if match else False
 
 def forecaster()->str:
-    url = 'https://api.openweathermap.org/data/2.5/forecast?q=Орёл&units=metric&lang=ru&appid=a8db06017af6e030b1ef9d31cc9f5536'
+    url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + CITY +'&units=metric&lang=ru&appid=a8db06017af6e030b1ef9d31cc9f5536'
     data = requests.get(url).json()
     temp = data['list'][0]['main']['temp']
     feel_temp = data['list'][0]['main']['feels_like']
@@ -49,7 +49,7 @@ def forecaster()->str:
     return otvet
 
 def weaher_9pm()->str:
-    url = 'https://api.openweathermap.org/data/2.5/forecast?q=Орёл&units=metric&lang=ru&appid=a8db06017af6e030b1ef9d31cc9f5536'
+    url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + CITY +'&units=metric&lang=ru&appid=a8db06017af6e030b1ef9d31cc9f5536'
     data = requests.get(url).json()
     temp = data['list'][3]['main']['temp']
     feel_temp = data['list'][3]['main']['feels_like']
