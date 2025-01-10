@@ -110,7 +110,7 @@ def call_back(call):
         bot.send_message(call.message.chat.id, text='Высылаю отчёт за весь месяц перед удалением')
         db = Database()
         db.export()
-        with open('itog.xlsx', 'rb') as f:
+        with open('export.xlsx', 'rb') as f:
             bot.send_document(call.message.chat.id, f)
         db.delete_month()
         db.__del__()
