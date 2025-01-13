@@ -78,11 +78,13 @@ def call_back(call):
             else:
                 limit_list.append(0)
         ostatok = [x - y for x, y in zip(LIMITS, limit_list)]
+        sum_ostatok = sum(ostatok)
         bot.send_message(call.message.chat.id, text=f'Текущий остаток по каждой категории:\n'
                                                     f'ЕДА: <b>{str(ostatok[0])} руб</b>\n'
                                                     f'ПРОЕЗД: <b>{str(ostatok[1])} руб</b>\n'
                                                     f'ГИГИЕНА: <b>{str(ostatok[2])} руб</b>\n'
-                                                    f'ЛИЧНОЕ: <b>{str(ostatok[3])} руб</b>', parse_mode='HTML')
+                                                    f'ЛИЧНОЕ: <b>{str(ostatok[3])} руб</b>\n'
+                                                    f'СУММАРНЫЙ ОСТАТОК: <b>{str(sum_ostatok)} руб</b>', parse_mode='HTML')
         db.__del__()
     elif call.data == 'show_diagram':
         limit_list = []
@@ -141,8 +143,10 @@ def add_rashod(message):
     if functions.correct_variant(' '.join(message.text.split()[0:3])):
         data_list = message.text.split()
         db = Database()
-        if len(data_list)== 4: db.insert(data_list[1], data_list[0], data_list[2], data_list[3])
-        else: db.insert(sum=data_list[1], date=data_list[0], kategor=data_list[2])
+        if len(data_list)== 4: 
+            db.insert(sum=data_list[1], date=data_list[0], kategor=data_list[2], comment=' '.join(data_list[3:]))
+        else: 
+            db.insert(sum=data_list[1], date=data_list[0], kategor=data_list[2])
         db.__del__()
         bot.reply_to(message, 'Расход успешно добавлен')
     else:
