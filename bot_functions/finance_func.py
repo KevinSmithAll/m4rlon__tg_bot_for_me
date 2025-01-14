@@ -37,7 +37,7 @@ def call_back(call):
                                                         f'Сумма: <b>{str(row[1])}</b>\n'
                                                         f'Дата: <b>{str(row[2])}</b>\n'
                                                         f'Категория: <b>{str(row[3])}</b>\n'
-                                                        f'Примечание: <b>{str(row[4])}</b>', parse_mode='HTML')
+                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
         db.__del__()
     elif call.data == 'Check_all':
         db = Database()
@@ -52,7 +52,7 @@ def call_back(call):
                                                         f'Сумма: <b>{str(row[1])}</b>\n'
                                                         f'Дата: <b>{str(row[2])}</b>\n'
                                                         f'Категория: <b>{str(row[3])}</b>\n'
-                                                        f'Примечание: <b>{str(row[4])}</b>', parse_mode='HTML')
+                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
         bot.send_message(call.message.chat.id, text='Введите номер удаляемого расхода')
         bot.register_next_step_handler(call.message, delete_rashod)
         db.__del__()
@@ -63,7 +63,7 @@ def call_back(call):
                                                         f'Сумма: <b>{str(row[1])}</b>\n'
                                                         f'Дата: <b>{str(row[2])}</b>\n'
                                                         f'Категория: <b>{str(row[3])}</b>\n'
-                                                        f'Примечание: <b>{str(row[4])}</b>', parse_mode='HTML')
+                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
         bot.send_message(call.message.chat.id, text='Введите измененный расход в формате:\n'
                                                     '*№* *дата* *сумма* *категория* *комментарий*')
         bot.register_next_step_handler(call.message, change_rashod)
