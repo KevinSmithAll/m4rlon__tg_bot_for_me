@@ -24,5 +24,5 @@ def call_back2(call):
         index_ = functions.get_tomorrow_index()
         bot.send_message(call.message.chat.id, functions.weather_tomorrow(index=index_))
     elif call.data == 'Weather_morning':
-        index_ = functions.get_tomorrow_index()
+        index_ = functions.get_morning_index()
         bot.send_message(call.message.chat.id, functions.weather_tomorrow(index=index_))
