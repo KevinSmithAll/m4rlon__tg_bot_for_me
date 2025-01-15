@@ -2,7 +2,7 @@ import re
 from config import CATEGORIES, CITY
 from datetime import datetime, timedelta
 import requests
-
+import math
 
 def correct_variant(text: str)-> bool:
     date_pattern = r'\d{2}\.\d{2}\.\d{2}'
