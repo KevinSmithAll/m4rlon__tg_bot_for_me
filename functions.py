@@ -111,7 +111,7 @@ def weather_tomorrow(index: int) -> str:
     description = data['list'][index]['weather'][0]['description']
     data_time = data['list'][index]['dt_txt']
     town = data['city']['name']
-    otvet = (f'Настоящим докладываю тебе прогноз погоды на ЗАВТРА 06:00\n'
+    otvet = (f'Настоящим докладываю тебе прогноз погоды\n'
              f'Температура: {round(temp, 1)} градусов\n'
              f'Ощущается как: {round(feel_temp, 1)} градусов\n'
              f'Влажность: {humidity} процентов\n'
