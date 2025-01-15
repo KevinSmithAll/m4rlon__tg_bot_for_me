@@ -73,4 +73,4 @@ def weaher_9pm()->str:
 def correct_zametka(messagetext: str)->bool:
     pattern = r'\d+\s+\w+'
     match = re.match(pattern, messagetext)
-    return True if match else False
+    return True if match else False # проверка правильности заметки
