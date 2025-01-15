@@ -76,7 +76,14 @@ def correct_zametka(messagetext: str)->bool:
     return True if match else False # проверка правильности заметки
 
 
-def rounder(time):
+def rounder(time: datetime) -> datetime:
+    """
+    Функция округляет объект времени до ближайшего часа, который делится на 3.
+    Args:
+       time (datetime): объект времени, который нужно округлить.
+    Returns:
+       datetime: новый объект времени, который округлен до ближайшего часа, который делится на 3.
+    """
     hours = math.floor(time.hour / 3) * 3
     rounded_time = time.replace(hour=hours, minute=0, second=0, microsecond=0)
     return rounded_time
