@@ -37,13 +37,10 @@ def call_back2(call):
         
         markup.row(btn1, btn2, btn3, btn4)
         bot.send_message(call.message.chat.id, text='На какой день Вы хотите узнать прогноз?', reply_markup=markup)
-        
+        bot.register_next_step_handler(call.message, get_weather)
 
 
-def create_keybord():
-    markup = types.ReplyKeyboardMarkup()
-    btn1 = types.KeyboardButton('1')
-    markup.row(btn1)
-    btn2 = types.KeyboardButton('2')
-    btn3 = types.KeyboardButton('3')
-    markup.row(btn2, btn3)
+def get_weather(message) -> None:
+    dates = functions.get_week_dates()
+    if message.text == dates[1]:
+        bot.send_message(message.chat.id, functions.weather_tomorrow(index=1))
