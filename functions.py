@@ -47,7 +47,7 @@ def forecaster()->str:
              f'Скорость ветра: {wind} м/с\n'
              f'Характеристика погоды: {description}\n'
              f'Дата и время измерения: {data_time}\n'
-             f'Город: {town}')
+             f'Город: г.{town}')
     return otvet
 
 def weaher_9pm()->str:
@@ -67,10 +67,49 @@ def weaher_9pm()->str:
              f'Скорость ветра: {wind} м/с\n'
              f'Характеристика погоды: {description}\n'
              f'Дата и время измерения: {data_time}\n'
-             f'Город: {town}')
+             f'Город: г.{town}')
     return otvet
 
 def correct_zametka(messagetext: str)->bool:
     pattern = r'\d+\s+\w+'
     match = re.match(pattern, messagetext)
     return True if match else False # проверка правильности заметки
+
+
+def rounder(time):
+    hours = math.floor(time.hour / 3) * 3
+    rounded_time = time.replace(hour=hours, minute=0, second=0, microsecond=0)
+    return rounded_time
+
+
+def get_tomorrow_index() -> int:
+    current_time = datetime.now()
+    today = datetime.now().date()
+    day = today.day
+    month = today.month
+    year = today.year
+    tomorrow = datetime(year=year, month=month, day=day+1, hour=12, minute=0, second=0)
+    delta = tomorrow - rounder(current_time)
+    return int(delta.total_seconds() // 3600 / 3)
+
+
+
+def weather_tomorrow(index: int) -> str:  
+    url = 'https://api.openweathermap.org/data/2.5/forecast?q=' + CITY +'&units=metric&lang=ru&appid=a8db06017af6e030b1ef9d31cc9f5536'
+    data = requests.get(url).json()
+    temp = data['list'][index]['main']['temp']
+    feel_temp = data['list'][index]['main']['feels_like']
+    humidity = data['list'][index]['main']['humidity']
+    wind = data['list'][index]['wind']['speed']
+    description = data['list'][index]['weather'][0]['description']
+    data_time = data['list'][index]['dt_txt']
+    town = data['city']['name']
+    otvet = (f'Настоящим докладываю тебе прогноз погоды на ЗАВТРА 06:00\n'
+             f'Температура: {round(temp, 1)} градусов\n'
+             f'Ощущается как: {round(feel_temp, 1)} градусов\n'
+             f'Влажность: {humidity} процентов\n'
+             f'Скорость ветра: {wind} м/с\n'
+             f'Характеристика погоды: {description}\n'
+             f'Дата и время измерения: {data_time}\n'
+             f'Город: г.{town}')
+    return otvet

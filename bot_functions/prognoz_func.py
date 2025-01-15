@@ -2,10 +2,6 @@ from bot_system import bot, check_admin
 import functions
 from telebot import types
 
-@bot.message_handler(commands=['prognoz'])
-@check_admin
-def forecast(message):
-    bot.send_message(message.chat.id, functions.forecaster())
 
 @bot.message_handler(commands=['prognoz'])
 @check_admin
@@ -23,6 +19,6 @@ weather_cmds = ['Weather_now', 'Weather_tomorrow', 'Weather_morning', 'Weather_w
 @bot.callback_query_handler(func=lambda call: call.data in weather_cmds)
 def call_back2(call):
     if call.data == 'Weather_now':
-        bot.send_message(message.chat.id, functions.forecaster())
+        bot.send_message(call.message.chat.id, functions.forecaster())
     elif call.data == 'Redact':
         pass
