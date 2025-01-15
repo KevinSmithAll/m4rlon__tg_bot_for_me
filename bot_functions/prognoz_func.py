@@ -20,5 +20,9 @@ weather_cmds = ['Weather_now', 'Weather_tomorrow', 'Weather_morning', 'Weather_w
 def call_back2(call):
     if call.data == 'Weather_now':
         bot.send_message(call.message.chat.id, functions.forecaster())
-    elif call.data == 'Redact':
-        pass
+    elif call.data == 'Weather_tomorrow':
+        index_ = functions.get_tomorrow_index()
+        bot.send_message(call.message.chat.id, functions.weather_tomorrow(index=index_))
+    elif call.data == 'Weather_morning':
+        index_ = functions.get_tomorrow_index()
+        bot.send_message(call.message.chat.id, functions.weather_tomorrow(index=index_))

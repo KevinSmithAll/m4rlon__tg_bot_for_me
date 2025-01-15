@@ -120,3 +120,14 @@ def weather_tomorrow(index: int) -> str:
              f'Дата и время измерения: {data_time}\n'
              f'Город: г.{town}')
     return otvet
+
+
+def get_morning_index() -> int:
+    current_time = datetime.now()
+    today = datetime.now().date()
+    day = today.day
+    month = today.month
+    year = today.year
+    tomorrow = datetime(year=year, month=month, day=day+1, hour=6, minute=0, second=0)
+    delta = tomorrow - rounder(current_time)
+    return int(delta.total_seconds() // 3600 / 3)
