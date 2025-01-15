@@ -131,3 +131,60 @@ def get_morning_index() -> int:
     tomorrow = datetime(year=year, month=month, day=day+1, hour=6, minute=0, second=0)
     delta = tomorrow - rounder(current_time)
     return int(delta.total_seconds() // 3600 / 3)
+
+
+def get_4_day_index() -> dict:
+    current_time = datetime.now()
+    today = datetime.now().date()
+    day = today.day
+    month = today.month
+    year = today.year
+    
+    first = datetime(year=year, month=month, day=day+1, hour=12, minute=0, second=0)
+    second = datetime(year=year, month=month, day=day+2, hour=12, minute=0, second=0)
+    third = datetime(year=year, month=month, day=day+3, hour=12, minute=0, second=0)
+    fourth = datetime(year=year, month=month, day=day+4, hour=12, minute=0, second=0)
+    
+    delta_1 = first - rounder(current_time)
+    delta_2 = second - rounder(current_time)
+    delta_3 = third - rounder(current_time)
+    delta_4 = fourth - rounder(current_time)
+    
+    index_1 = int(delta_1.total_seconds() // 3600 / 3)
+    index_2 = int(delta_2.total_seconds() // 3600 / 3)
+    index_3 = int(delta_3.total_seconds() // 3600 / 3)
+    index_4 = int(delta_4.total_seconds() // 3600 / 3)
+    
+    return {
+        first.date().day: index_1,
+        second.date().day: index_2,
+        third.date().day: index_3,
+        fourth.date().day: index_4
+    }
+    
+
+def get_week_dates() -> dict:
+    current_time = datetime.now()
+    today = datetime.now().date()
+    day = today.day
+    month = today.month
+    year = today.year
+    
+    first = datetime(year=year, month=month, day=day+1, hour=12, minute=0, second=0)
+    second = datetime(year=year, month=month, day=day+2, hour=12, minute=0, second=0)
+    third = datetime(year=year, month=month, day=day+3, hour=12, minute=0, second=0)
+    fourth = datetime(year=year, month=month, day=day+4, hour=12, minute=0, second=0)
+    
+    return {
+        1: first.date().day,
+        2: second.date().day,
+        3: third.date().day,
+        4: fourth.date().day
+    }
+
+
+def weather_4_days() -> dict:
+    weather = {}
+    indexes = get_4_day_index()
+    for date, index in indexes.items():
+        pass

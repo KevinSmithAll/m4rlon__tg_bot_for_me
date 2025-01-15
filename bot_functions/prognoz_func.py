@@ -15,7 +15,7 @@ def remember(message):
     bot.send_message(message.chat.id, 'Что будем делать?', reply_markup=markup_new)
 
 weather_cmds = ['Weather_now', 'Weather_tomorrow', 'Weather_morning', 'Weather_week']
-
+#bot.register_next_step_handler(call.message, change_rashod)
 @bot.callback_query_handler(func=lambda call: call.data in weather_cmds)
 def call_back2(call):
     if call.data == 'Weather_now':
@@ -26,3 +26,24 @@ def call_back2(call):
     elif call.data == 'Weather_morning':
         index_ = functions.get_morning_index()
         bot.send_message(call.message.chat.id, functions.weather_tomorrow(index=index_))
+    elif call.data == 'Weather_week':
+        dates = functions.get_week_dates()
+        
+        markup = types.ReplyKeyboardMarkup()
+        btn1 = types.KeyboardButton(dates[1])
+        btn2 = types.KeyboardButton(dates[2])
+        btn3 = types.KeyboardButton(dates[3])
+        btn4 = types.KeyboardButton(dates[4])
+        
+        markup.row(btn1, btn2, btn3, btn4)
+        bot.send_message(call.message.chat.id, text='На какой день Вы хотите узнать прогноз?', reply_markup=markup)
+        
+
+
+def create_keybord():
+    markup = types.ReplyKeyboardMarkup()
+    btn1 = types.KeyboardButton('1')
+    markup.row(btn1)
+    btn2 = types.KeyboardButton('2')
+    btn3 = types.KeyboardButton('3')
+    markup.row(btn2, btn3)
