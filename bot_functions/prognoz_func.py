@@ -34,8 +34,8 @@ def call_back2(call):
         btn2 = types.KeyboardButton(dates[2])
         btn3 = types.KeyboardButton(dates[3])
         btn4 = types.KeyboardButton(dates[4])
-        
-        markup.row(btn1, btn2, btn3, btn4)
+        btn5 = types.KeyboardButton('Назад')
+        markup.row(btn1, btn2, btn3, btn4, btn5)
         bot.send_message(call.message.chat.id, text='На какой день Вы хотите узнать прогноз?', reply_markup=markup)
         bot.register_next_step_handler(call.message, get_weather)
 
@@ -43,8 +43,22 @@ def call_back2(call):
 def get_weather(message) -> None:
     dates = functions.get_week_dates()
     indexes = functions.get_4_day_index()
-    if message.text == dates[1]:
-        print(dates[1])
-        print(indexes[dates[1]])
-        print(functions.weather_tomorrow(index=indexes[dates[1]]))
+
+    if message.text == str(dates[1]):
         bot.send_message(message.chat.id, functions.weather_tomorrow(index=indexes[dates[1]]))
+        bot.register_next_step_handler(message, get_weather)
+    elif message.text == str(dates[2]):
+        bot.send_message(message.chat.id, functions.weather_tomorrow(index=indexes[dates[2]]))
+        bot.register_next_step_handler(message, get_weather)
+    elif message.text == str(dates[3]):
+        bot.send_message(message.chat.id, functions.weather_tomorrow(index=indexes[dates[3]]))
+        bot.register_next_step_handler(message, get_weather)
+    elif message.text == str(dates[4]):
+        bot.send_message(message.chat.id, functions.weather_tomorrow(index=indexes[dates[4]]))
+        bot.register_next_step_handler(message, get_weather)
+    elif message.text == 'Назад':
+        deleted_ = types.ReplyKeyboardRemove()
+        bot.send_message(message.chat.id, 'Возвращение назад', reply_markup=deleted_)
+    else:
+        bot.send_message(message.chat.id, 'Неверный ввод')
+        
