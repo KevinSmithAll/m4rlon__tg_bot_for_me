@@ -115,6 +115,9 @@ def call_back(call):
             bot.send_document(call.message.chat.id, f)
         db.delete_month()
         db.__del__()
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+                                  message_id=call.message.message_id,
+                                  reply_markup=None)  
 
 def change_rashod(message):
     if functions.correct_with_number(' '.join(message.text.split()[0:4])):

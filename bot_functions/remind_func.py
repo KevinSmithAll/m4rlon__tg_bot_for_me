@@ -50,6 +50,9 @@ def call_back2(call):
         db.delete_all_zametka()
         bot.send_message(call.message.chat.id, 'Все заметки удалены успешно')
         db.__del__()
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+                                  message_id=call.message.message_id,
+                                  reply_markup=None)  
 
 def del_zametka(message):
     db = Database()

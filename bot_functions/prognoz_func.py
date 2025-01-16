@@ -38,7 +38,9 @@ def call_back2(call):
         markup.row(btn1, btn2, btn3, btn4, btn5)
         bot.send_message(call.message.chat.id, text='На какой день Вы хотите узнать прогноз?', reply_markup=markup)
         bot.register_next_step_handler(call.message, get_weather)
-
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+                                  message_id=call.message.message_id,
+                                  reply_markup=None)  
 
 def get_weather(message) -> None:
     dates = functions.get_week_dates()
