@@ -42,5 +42,9 @@ def call_back2(call):
 
 def get_weather(message) -> None:
     dates = functions.get_week_dates()
+    indexes = functions.get_4_day_index()
     if message.text == dates[1]:
-        bot.send_message(message.chat.id, functions.weather_tomorrow(index=1))
+        print(dates[1])
+        print(indexes[dates[1]])
+        print(functions.weather_tomorrow(index=indexes[dates[1]]))
+        bot.send_message(message.chat.id, functions.weather_tomorrow(index=indexes[dates[1]]))
