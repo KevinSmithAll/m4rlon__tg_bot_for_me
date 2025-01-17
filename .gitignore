@@ -4,5 +4,6 @@
 *.xlsx
 .gitignore
 test.py
+test_db.py
 tg_bot_for_me.code-workspace
 __pycache__
