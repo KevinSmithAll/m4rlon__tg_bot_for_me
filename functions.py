@@ -22,6 +22,18 @@ def get_last_seven_days()->list:
         dates.append(formatted_date)
     return dates
 
+
+def get_last_three_days()->list:
+    # Получаем текущую дату
+    today = datetime.now()
+    dates = []
+    for i in range(3):
+        date = today - timedelta(days=i)
+        formatted_date = f"{date.day:02d}.{date.month:02d}.{date.year % 100}"
+        dates.append(formatted_date)
+    return dates
+
+
 def correct_with_number(text: str)-> bool:
     date_pattern = r'\d{2}\.\d{2}\.\d{2}'
     integer_pattern = r'-?\d+'
