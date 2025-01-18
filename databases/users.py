@@ -1,5 +1,5 @@
 import sqlite3
-from init_db import Database
+from databases.init_db import Database
 
 class User_db(Database):
     def __init__(self):
