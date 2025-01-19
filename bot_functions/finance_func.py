@@ -14,31 +14,41 @@ def finance(message):
     markup = types.InlineKeyboardMarkup(row_width=1)
     item_1 = types.InlineKeyboardButton('Добавить расход', callback_data='Add')
     item_2 = types.InlineKeyboardButton('Просмотреть расходы за 7 дней', callback_data='Check_7')
+    item_2_1 = types.InlineKeyboardButton('Просмотреть расходы за 3 дня', callback_data='Check_3')
     item_3 = types.InlineKeyboardButton('Прислать отчёт за весь период', callback_data='Check_all')
     item_4 = types.InlineKeyboardButton('Удалить какой-то расход за последние 7 дней', callback_data='Delete_some')
     item_5 = types.InlineKeyboardButton('Изменить какой-то расход за последние 7 дней', callback_data='change_rashod')
     item_6 = types.InlineKeyboardButton('Просмотреть остатки', callback_data='check')
     item_7 = types.InlineKeyboardButton('Показать диаграмму расходов', callback_data='show_diagram')
     item_8 = types.InlineKeyboardButton('Начать новый месяц', callback_data='restart_month')
-    markup.add(item_1, item_2, item_3, item_4, item_5, item_6, item_7, item_8)
+    markup.add(item_1, item_2, item_2_1, item_3, item_4, item_5, item_6, item_7, item_8)
     bot.send_message(message.chat.id, 'Что будем делать?', reply_markup=markup)
 
-finance_cmds = ['Add', 'Check_7', 'Check_all', 'Delete_some', 'change_rashod', 'check', 'show_diagram', 'restart_month']
+finance_cmds = ['Add', 'Check_7', 'Check_3', 'Check_all', 'Delete_some', 'change_rashod', 'check', 'show_diagram', 'restart_month']
 @bot.callback_query_handler(func=lambda call: call.data in finance_cmds)
 def call_back(call):
     if call.data == 'Add':
         bot.send_message(call.message.chat.id, 'Введите ваш расход по следующей форме: *дата* *сумма* *категория* *примечание*')
         bot.register_next_step_handler(call.message, add_rashod)
     elif call.data == 'Check_7':
-        db = Database()
+        db = Transaction_db()
         list_ = db.get_7_day()
-        for row in list_:
-            bot.send_message(call.message.chat.id, text=f'№ п/п: <b>{str(row[0])}</b>\n'
+        for number, row in enumerate(list_):
+            bot.send_message(call.message.chat.id, text=f'№ п/п: <b>{number + 1}</b>\n'
                                                         f'Сумма: <b>{str(row[1])}</b>\n'
                                                         f'Дата: <b>{str(row[2])}</b>\n'
                                                         f'Категория: <b>{str(row[3])}</b>\n'
                                                         f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
         db.__del__()
+    elif call.data == 'Check_3':
+        db = Transaction_db()
+        list_ = db.get_3_day()
+        for number, row in enumerate(list_):
+            bot.send_message(call.message.chat.id, text=f'№ п/п: <b>{number + 1}</b>\n'
+                                                        f'Сумма: <b>{str(row[1])}</b>\n'
+                                                        f'Дата: <b>{str(row[2])}</b>\n'
+                                                        f'Категория: <b>{str(row[3])}</b>\n'
+                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
     elif call.data == 'Check_all':
         db = Database()
         db.export()
