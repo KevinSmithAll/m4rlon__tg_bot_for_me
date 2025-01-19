@@ -6,7 +6,7 @@ from config import *
 import matplotlib.pyplot as plt
 import matplotlib
 import functions
-
+from databases.transactions import Transaction_db
 
 @bot.message_handler(commands=['finance'])
 @check_admin
@@ -142,15 +142,24 @@ def delete_rashod(message):
         bot.register_next_step_handler(message, delete_rashod)
 
 def add_rashod(message):
+    user_id = message.from_user.id
+    
     if functions.correct_variant(' '.join(message.text.split()[0:3])):
         data_list = message.text.split()
-        db = Database()
+        db = Transaction_db()
         if len(data_list) == 3:
-            db.insert(sum=data_list[1], date=data_list[0], kategor=data_list[2])
+            db.add_transaction(tg_id=user_id,
+                               date=data_list[0],
+                               value=data_list[1],
+                               category=data_list[2])
         else: 
-            db.insert(sum=data_list[1], date=data_list[0], kategor=data_list[2], comment=' '.join(data_list[3:]))
+            db.add_transaction(tg_id=user_id,
+                               date=data_list[0],
+                               value=data_list[1],
+                               category=data_list[2],
+                               comment=' '.join(data_list[3:]))
         db.__del__()
         bot.reply_to(message, 'Расход успешно добавлен')
     else:
-        bot.send_message(message.chat.id, 'Ошибка ввода')
+        bot.send_message(message.chat.id, 'Ошибка ввода, вероятно нарушен шаблон, попробуйте ещё раз')
         bot.register_next_step_handler(message, add_rashod)
