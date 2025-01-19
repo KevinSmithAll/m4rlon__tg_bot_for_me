@@ -9,7 +9,7 @@ def main(message):
     db = User_db()
     
     if db.user_exists(tg_id=user_id) == False:
-        msg = f'Привет, добро пожаловать, ты прошел регистрацию. Я полностью к твоим услугам'
+        msg = f'Привет, добро пожаловать, я тебя внёс в базу. Я полностью к твоим услугам'
         bot.send_message(chat_id, text=msg)
     else:
         msg = f'Привет, ты уже прошел регистрацию'
