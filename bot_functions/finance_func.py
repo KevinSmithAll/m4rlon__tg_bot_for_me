@@ -31,27 +31,30 @@ def call_back(call):
         bot.send_message(call.message.chat.id, 'Введите ваш расход по следующей форме: *дата* *сумма* *категория* *примечание*')
         bot.register_next_step_handler(call.message, add_rashod)
     elif call.data == 'Check_7':
+        user_id = call.message.chat.id
+        print(user_id)
         db = Transaction_db()
-        list_ = db.get_7_day()
+        list_ = db.get_7_day(tg_id=user_id)
         for number, row in enumerate(list_):
             bot.send_message(call.message.chat.id, text=f'№ п/п: <b>{number + 1}</b>\n'
-                                                        f'Сумма: <b>{str(row[1])}</b>\n'
-                                                        f'Дата: <b>{str(row[2])}</b>\n'
-                                                        f'Категория: <b>{str(row[3])}</b>\n'
-                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
+                                                        f'Сумма: <b>{str(row[0])}</b>\n'
+                                                        f'Дата: <b>{str(row[1])}</b>\n'
+                                                        f'Категория: <b>{str(row[2])}</b>\n'
+                                                        f'Комментарий: <b>{str(row[3])}</b>', parse_mode='HTML')
         db.__del__()
     elif call.data == 'Check_3':
+        user_id = call.message.chat.id
         db = Transaction_db()
-        list_ = db.get_3_day()
+        list_ = db.get_3_day(tg_id=user_id)
         for number, row in enumerate(list_):
             bot.send_message(call.message.chat.id, text=f'№ п/п: <b>{number + 1}</b>\n'
-                                                        f'Сумма: <b>{str(row[1])}</b>\n'
-                                                        f'Дата: <b>{str(row[2])}</b>\n'
-                                                        f'Категория: <b>{str(row[3])}</b>\n'
-                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
+                                                        f'Сумма: <b>{str(row[0])}</b>\n'
+                                                        f'Дата: <b>{str(row[1])}</b>\n'
+                                                        f'Категория: <b>{str(row[2])}</b>\n'
+                                                        f'Комментарий: <b>{str(row[3])}</b>', parse_mode='HTML')
     elif call.data == 'Check_all':
-        db = Database()
-        db.export()
+        db = Transaction_db()
+        db.export_transactions()
         with open('export.xlsx', 'rb') as f:
             bot.send_document(call.message.chat.id, f)
         db.__del__()

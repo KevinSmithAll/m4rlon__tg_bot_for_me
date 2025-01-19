@@ -16,16 +16,16 @@ class Transaction_db(Database):
         self.cursor.execute("INSERT INTO transactions VALUES (NULL, (SELECT user_id FROM users WHERE tg_id=?), ?, ?, ?, ?)", (tg_id, date, value, category, comment))
         self.conn.commit()
 
-    def get_7_day(self):
+    def get_7_day(self, tg_id: int):
         dates = get_last_seven_days()
-        query = f"""SELECT * FROM transactions WHERE date IN ({','.join(['?'] * len(dates))})"""
+        query = f"""SELECT value, date, category, comment FROM transactions WHERE user_id=(SELECT user_id FROM users WHERE tg_id={tg_id}) AND date IN ({','.join(['?'] * len(dates))})"""
         return self.cursor.execute(query, dates).fetchall()
 
-    def get_3_day(self):
+    def get_3_day(self, tg_id: int):
         dates = get_last_three_days()
-        query = f"""SELECT * FROM transactions WHERE date IN ({','.join(['?'] * len(dates))})"""
+        query = f"""SELECT value, date, category, comment FROM transactions WHERE user_id=(SELECT user_id FROM users WHERE tg_id={tg_id}) AND date IN ({','.join(['?'] * len(dates))})"""
         return self.cursor.execute(query, dates).fetchall()
         
     def export_transactions(self):
-        df = pd.read_sql_query("SELECT * FROM transaktions", self.conn)
+        df = pd.read_sql_query("SELECT * FROM transactions", self.conn)
         return df.to_excel('export.xlsx')
