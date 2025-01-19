@@ -27,12 +27,11 @@ def finance(message):
 finance_cmds = ['Add', 'Check_7', 'Check_3', 'Check_all', 'Delete_some', 'change_rashod', 'check', 'show_diagram', 'restart_month']
 @bot.callback_query_handler(func=lambda call: call.data in finance_cmds)
 def call_back(call):
+    user_id = call.message.chat.id
     if call.data == 'Add':
         bot.send_message(call.message.chat.id, 'Введите ваш расход по следующей форме: *дата* *сумма* *категория* *примечание*')
         bot.register_next_step_handler(call.message, add_rashod)
     elif call.data == 'Check_7':
-        user_id = call.message.chat.id
-        print(user_id)
         db = Transaction_db()
         list_ = db.get_7_day(tg_id=user_id)
         for number, row in enumerate(list_):
@@ -43,7 +42,6 @@ def call_back(call):
                                                         f'Комментарий: <b>{str(row[3])}</b>', parse_mode='HTML')
         db.__del__()
     elif call.data == 'Check_3':
-        user_id = call.message.chat.id
         db = Transaction_db()
         list_ = db.get_3_day(tg_id=user_id)
         for number, row in enumerate(list_):
@@ -54,18 +52,19 @@ def call_back(call):
                                                         f'Комментарий: <b>{str(row[3])}</b>', parse_mode='HTML')
     elif call.data == 'Check_all':
         db = Transaction_db()
-        db.export_transactions()
+        db.export_transactions(tg_id=user_id)
         with open('export.xlsx', 'rb') as f:
             bot.send_document(call.message.chat.id, f)
         db.__del__()
     elif call.data == 'Delete_some':
-        db = Database()
-        for row in db.get_7_day():
-            bot.send_message(call.message.chat.id, text=f'Номер расхода: <b>{str(row[0])}</b>\n'
-                                                        f'Сумма: <b>{str(row[1])}</b>\n'
-                                                        f'Дата: <b>{str(row[2])}</b>\n'
-                                                        f'Категория: <b>{str(row[3])}</b>\n'
-                                                        f'Комментарий: <b>{str(row[4])}</b>', parse_mode='HTML')
+        db = Transaction_db()
+        list_ = db.get_7_day(tg_id=user_id)
+        for number, row in enumerate(list_):
+            bot.send_message(call.message.chat.id, text=f'№ п/п: <b>{number + 1}</b>\n'
+                                                        f'Сумма: <b>{str(row[0])}</b>\n'
+                                                        f'Дата: <b>{str(row[1])}</b>\n'
+                                                        f'Категория: <b>{str(row[2])}</b>\n'
+                                                        f'Комментарий: <b>{str(row[3])}</b>', parse_mode='HTML')
         bot.send_message(call.message.chat.id, text='Введите номер удаляемого расхода')
         bot.register_next_step_handler(call.message, delete_rashod)
         db.__del__()
@@ -145,7 +144,23 @@ def change_rashod(message):
         bot.register_next_step_handler(message, change_rashod)
 
 def delete_rashod(message):
-    db = Database()
+    user_id = message.from_user.id
+    db = Transaction_db()
+    
+    count = db.get_7_day(tg_id=user_id)
+    
+    try:
+        if int(message.text) > count:
+            raise ValueError
+        else:
+            transaction_id = 
+    except ValueError:
+        bot.send_message(message.chat.id, 'Ошибка ввода')
+    
+    
+    
+    
+    
     if db.is_id(int(message.text)):
         db.delete_row(int(message.text))
         bot.reply_to(message, f'Расход №{message.text} удален')

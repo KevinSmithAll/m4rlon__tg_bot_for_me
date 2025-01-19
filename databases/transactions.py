@@ -26,6 +26,11 @@ class Transaction_db(Database):
         query = f"""SELECT value, date, category, comment FROM transactions WHERE user_id=(SELECT user_id FROM users WHERE tg_id={tg_id}) AND date IN ({','.join(['?'] * len(dates))})"""
         return self.cursor.execute(query, dates).fetchall()
         
-    def export_transactions(self):
-        df = pd.read_sql_query("SELECT * FROM transactions", self.conn)
+    def export_transactions(self, tg_id: int):
+        df = pd.read_sql_query(f"SELECT value, date, category, comment FROM transactions WHERE user_id=(SELECT user_id FROM users WHERE tg_id={tg_id})", self.conn)
         return df.to_excel('export.xlsx')
+    
+    def delete_transaction(self, tg_id: int):
+        self.cursor.execute("DELETE FROM transactions WHERE user_id=(SELECT user_id FROM users WHERE tg_id=?)", (tg_id,))
+        self.conn.commit()
+        
