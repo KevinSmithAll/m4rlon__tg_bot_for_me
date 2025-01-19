@@ -1,5 +1,5 @@
 import sqlite3
-from init_db import Database
+from databases.init_db import Database
 import pandas as pd
 from functions import get_last_seven_days, get_last_three_days
 
