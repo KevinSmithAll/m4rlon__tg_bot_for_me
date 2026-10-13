@@ -1,6 +1,6 @@
 
 LOGIN_ID = 890424948
-TOKEN = '7990808992:AAFPFFG_3HriAwol8hGkUpUr9lbBytg_Y0U'
+TOKEN = ''
 CATEGORIES = ["еда", "проезд", "гигиена", "личное"]
 LIMITS = [5000, 1000, 1000, 3000]
 CITY = 'Тверь'
